@@ -22,7 +22,7 @@ func (g *GinServer) LoadHTMLGlob() {
 
 func (g *GinServer) Setup() {
 	g.Static()
-	g.LoadHTMLGlob()
+	//g.LoadHTMLGlob()
 	g.InstallRoutes()
 }
 
@@ -39,6 +39,6 @@ func (g *GinServer) Ping(c *gin.Context) {
 	})
 }
 
-func (g *GinServer) Run() error {
-	return g.Router.Run(":8080")
+func (g *GinServer) Run(addr string) error {
+	return g.Router.Run(addr)
 }
