@@ -5,8 +5,8 @@
         <label for="model">Model:</label>
         <input id="model" v-model="formData.model" type="text" placeholder="Enter model" required>
       </div>
+
       <div v-for="(message, index) in formData.messages" :key="index">
-        <h3>Message {{ index + 1 }}</h3>
         <label for="role">Role:</label>
         <select v-model="message.role" required>
           <option value="system">System</option>
@@ -16,8 +16,8 @@
 
         <label for="content">Content:</label>
         <input v-model="message.content" type="text" placeholder="Enter content" required>
-
       </div>
+
       <div>
         <button class="remove-message-btn" type="button" @click="removeMessage(index)">
           <i class="fas fa-trash-alt"></i>
