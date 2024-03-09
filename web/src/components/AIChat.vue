@@ -1,35 +1,36 @@
 <template>
   <div>
     <form @submit.prevent="submitForm">
-      <div>
-        <label for="model">Model:</label>
-        <input id="model" v-model="formData.model" type="text" placeholder="Enter model" required>
-      </div>
+      <div v-for="(message, index) in formData.messages" :key="`message-${index}`" class="message-row">
 
-      <div v-for="(message, index) in formData.messages" :key="index">
-        <label for="role">Role:</label>
-        <select v-model="message.role" required>
-          <option value="system">System</option>
-          <option value="user">User</option>
-          <option value="assistant">Assistant</option>
-        </select>
+        <!-- Role Icon Selectors -->
+        <div class="role-icons">
+          <i class="fas fa-server"
+             :class="{ 'active': message.role === 'system' }"
+             @click="setMessageRole(index, 'system')"></i>
+          <i class="fas fa-user-secret"
+             :class="{ 'active': message.role === 'assistant' }"
+             @click="setMessageRole(index, 'assistant')"></i>
+          <i class="fas fa-user"
+             :class="{ 'active': message.role === 'user' }"
+             @click="setMessageRole(index, 'user')"></i>
+        </div>
 
-        <label for="content">Content:</label>
+        <!-- Content Input -->
         <input v-model="message.content" type="text" placeholder="Enter content" required>
+
+        <!-- Remove Message Button -->
+        <button @click="removeMessage(index)" type="button" class="remove-message-btn">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
 
-      <div>
-        <button class="remove-message-btn" type="button" @click="removeMessage(index)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-        <button type="button" @click="addMessage">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="submit">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-
-      </div>
+      <button type="button" @click="addMessage" class="add-message-btn">
+        <i class="fas fa-plus"></i> Add Message
+      </button>
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-paper-plane"></i> Send Request
+      </button>
     </form>
   </div>
 </template>
@@ -53,6 +54,9 @@ export default {
     };
   },
   methods: {
+    setMessageRole(index, role) {
+      this.formData.messages[index].role = role;
+    },
     addMessage() {
       this.formData.messages.push({role: 'user', content: ''});
     },
@@ -69,63 +73,63 @@ export default {
 
 
 <style scoped>
-form {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h3 {
+.message-row {
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-button {
+.role-icons i {
   cursor: pointer;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
+  margin: 0 10px;
+  color: #ccc;
+}
+
+.role-icons i.active {
+  color: #007bff;
+}
+
+input[type="text"] {
+  flex-grow: 1;
   margin-right: 10px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button[type="submit"] {
-  background-color: #28a745;
-}
-
-button[type="submit"]:hover {
-  background-color: #218838;
-}
-
-button i {
-  margin-right: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .remove-message-btn {
-  background-color: #dc3545;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #dc3545;
 }
 
 .remove-message-btn:hover {
-  background-color: #c82333;
+  color: #c82333;
+}
+
+.add-message-btn, .submit-btn {
+  margin-top: 20px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+}
+
+.add-message-btn {
+  background-color: #28a745;
+}
+
+.add-message-btn:hover {
+  background-color: #218838;
+}
+
+.submit-btn {
+  background-color: #007bff;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
 }
 </style>
