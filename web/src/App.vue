@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <ListPage/>
+  <AIChat/>
 </template>
 
 <script>
-import ListPage from "@/components/ListPage.vue";
+import AIChat from "@/components/AIChat.vue";
 
 export default {
   name: 'App',
   components: {
-    ListPage,
+    AIChat,
   }
 }
 </script>
