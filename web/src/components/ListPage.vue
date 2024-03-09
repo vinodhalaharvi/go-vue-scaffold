@@ -1,8 +1,11 @@
 <template>
+  <div class="search-bar">
+    <input type="text" v-model="search" placeholder="Search items..."/>
+  </div>
   <div class="list-view-container">
     <h1>Featured Items</h1>
     <ul class="item-list">
-      <li v-for="(item, index) in items" :key="index" class="item">
+      <li v-for="(item, index) in filteredItems" :key="index" class="item">
         <h2>{{ item.title }}</h2>
         <p>{{ item.description }}</p>
       </li>
@@ -15,19 +18,26 @@ export default {
   name: 'ListPage',
   data() {
     return {
-      // sample 100 items using for loop
+      search: '',
       items: Array.from({length: 100}, (_, i) => ({
         title: `Item ${i + 1}`,
         description: `This is a description of item ${i + 1}.`
       })),
     };
   },
+  computed: {
+    filteredItems() {
+      return this.items.filter(item => {
+        return item.title.toLowerCase().includes(this.search.toLowerCase());
+      });
+    }
+  }
 };
 </script>
 
 <style scoped>
 .list-view-container {
-  max-width: 800px;
+  max-width: 400px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -38,8 +48,8 @@ export default {
 }
 
 .item {
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: #cee5ac;
+  border-radius: 10px;
   padding: 20px;
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
